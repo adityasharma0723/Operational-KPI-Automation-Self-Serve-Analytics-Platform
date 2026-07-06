@@ -1,0 +1,69 @@
+# ETL Pipeline Configuration
+# Edit paths here — never hardcode them in Python scripts.
+
+paths:
+  dataset_dir: "Dataset/archive (15)"
+  db_path: "adventure_works.db"
+  logs_dir: "logs"
+  rejected_rows_dir: "rejected_rows"
+  state_file: "pipeline_state.json"
+  schema_file: "schema.sql"
+
+# Mapping of CSV filenames to their logical role in the pipeline.
+# critical: true  => pipeline exits non-zero if this file fails to load.
+files:
+  Product.csv:
+    table: products
+    critical: false
+  Region.csv:
+    table: regions
+    critical: false
+  Reseller.csv:
+    table: resellers
+    critical: false
+  Sales.csv:
+    table: sales
+    critical: true          # KPIs depend on this — fail loudly if missing
+  Salesperson.csv:
+    table: salespeople
+    critical: false
+  SalespersonRegion.csv:
+    table: salesperson_regions
+    critical: false
+  Targets.csv:
+    table: targets
+    critical: false
+
+# Column rename mappings — keeps transform logic out of the pipeline body.
+column_renames:
+  Product.csv:
+    "Standard Cost": "Standard_Cost"
+    "Background Color Format": "Background_Color_Format"
+    "Font Color Format": "Font_Color_Format"
+  Reseller.csv:
+    "Business Type": "Business_Type"
+    "State-Province": "State_Province"
+    "Country-Region": "Country_Region"
+  Sales.csv:
+    "Unit Price": "Unit_Price"
+
+# Currency columns per file that need $ and , stripped.
+currency_columns:
+  Product.csv: ["Standard_Cost"]
+  Sales.csv: ["Unit_Price", "Sales", "Cost"]
+  Targets.csv: ["Target"]
+
+# Date columns per file that need ISO standardization.
+date_columns:
+  Sales.csv: ["OrderDate"]
+  Targets.csv: ["TargetMonth"]
+
+# Validation thresholds
+validation:
+  # If new row count exceeds (last_run * max_growth_factor), flag anomaly
+  max_growth_factor: 1.5
+  # If new row count is below (last_run * min_shrink_factor), flag anomaly
+  min_shrink_factor: 0.5
+
+# Schema version this pipeline expects
+schema_version: 1

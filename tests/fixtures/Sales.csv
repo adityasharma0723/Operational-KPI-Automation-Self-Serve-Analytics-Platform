@@ -1,0 +1,6 @@
+SalesOrderNumber,OrderDate,ProductKey,ResellerKey,EmployeeKey,SalesTerritoryKey,Quantity,Unit Price,Sales,Cost
+SO43897,"Friday, August 25, 2017",210,277,272,1,2,"$868.63","$1,737.26","$1,608.00"
+SO43898,"Friday, August 25, 2017",215,455,277,3,5,"$12.03","$60.15","$55.00"
+SO43899,"Saturday, August 26, 2017",216,789,272,2,1,"$13.88","$13.88","$12.50"
+SO43900,"Saturday, August 26, 2017",217,277,288,1,3,"$13.09","$39.27","$36.00"
+SO43901,"Monday, August 28, 2017",218,455,272,2,10,"$3.38","$33.80","$30.00"
